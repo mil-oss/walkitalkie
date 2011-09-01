@@ -15,15 +15,19 @@
 package org.miloss;
 
 import java.io.BufferedWriter;
+import java.io.FileDescriptor;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.Socket;
 import java.nio.ByteBuffer;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore.Audio;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -52,8 +56,14 @@ public class TalkActivity extends Activity {
     MediaRecorder mRecorder;
     MediaPlayer mPlayer;
     
+    /**
+     * Socket stuff
+     */
     String mFileName;
-    
+    FileOutputStream mFileOut;
+    Socket mSocket;
+    ParcelFileDescriptor mPFD;
+    FileDescriptor mFD;
     
     public static final String TAG = "TalkActivity";
     
@@ -107,24 +117,36 @@ public class TalkActivity extends Activity {
       }
     };
     
-    private void startRecording() throws IllegalStateException, IOException {
-     mRecorder = new MediaRecorder();
-     mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-     mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-     mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-     mRecorder.setOutputFile(mFileName);
-     mRecorder.prepare();
-     mRecorder.start(); 
+  private void startRecording() throws IllegalStateException, IOException {
+	  // Use a filedescriptor instead of direct file
+	  // This will enable easy transition to sockets later
+	  mFileOut = new FileOutputStream(mFileName);
+	  mFD = mFileOut.getFD();
+	  
+      mRecorder = new MediaRecorder();
+      mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+      mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+      mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+      mRecorder.setOutputFile(mFD);
+      mRecorder.prepare();
+      mRecorder.start(); 
   }
 
   private void stopRecording() throws IllegalArgumentException, IllegalStateException, IOException {
       mRecorder.stop();
       mRecorder.release();
       mRecorder = null;
+      mFileOut.close();
+      mFileOut = null;
       
+	  // Use a filedescriptor instead of direct file
+	  // This will enable easy transition to sockets later
+	  FileInputStream fileIn = new FileInputStream(mFileName);
+	  mFD = fileIn.getFD();
+	  
       mPlayer = new MediaPlayer();
       mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-      mPlayer.setDataSource(mFileName);
+      mPlayer.setDataSource(mFD);
       mPlayer.prepare(); // might take long! (for buffering, etc)
       mPlayer.start();
   }
