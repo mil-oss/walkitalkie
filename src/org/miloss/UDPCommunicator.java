@@ -19,21 +19,23 @@ public class UDPCommunicator implements Communicator {
        Thread listenerThread = new Thread("UDP listener") {
 
            public void run() {
-               byte[] buffer = new byte[65536];
-               DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
+               while (true) {
+                   byte[] buffer = new byte[65536];
+                   DatagramPacket receivePacket = new DatagramPacket(buffer, buffer.length);
 
-               try {
-                   socket.receive(receivePacket);
-                   // FIXME: Check we did not receive our own packet.
-                   // Create a new buffer with the actual data, as the length is likely to be smaller.
-                   byte[] received = new byte[receivePacket.getLength()];
-                   System.arraycopy(receivePacket.getData(), 0, received, 0, receivePacket.getLength());
-                   SoundBite soundBite = new SoundBite(0, received);
-                   for (SoundBiteListener listener : listeners) {
-                       listener.soundBiteReceived(soundBite);
+                   try {
+                       socket.receive(receivePacket);
+                       // FIXME: Check we did not receive our own packet.
+                       // Create a new buffer with the actual data, as the length is likely to be smaller.
+                       byte[] received = new byte[receivePacket.getLength()];
+                       System.arraycopy(receivePacket.getData(), 0, received, 0, receivePacket.getLength());
+                       SoundBite soundBite = new SoundBite(0, received);
+                       for (SoundBiteListener listener : listeners) {
+                           listener.soundBiteReceived(soundBite);
+                       }
+                   } catch (IOException ioe) {
+                     // FIXME: log this
                    }
-               } catch (IOException ioe) {
-                 // FIXME: log this
                }
            }
 
