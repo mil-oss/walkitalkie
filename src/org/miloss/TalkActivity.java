@@ -50,9 +50,10 @@ public class TalkActivity extends Activity {
      * Media player and recorder
      */
     MediaRecorder mRecorder;
-    ByteBuffer  mAudioBuffer;
+    MediaPlayer mPlayer;
+    
     String mFileName;
-    String mFile;
+    
     
     public static final String TAG = "TalkActivity";
     
@@ -121,11 +122,11 @@ public class TalkActivity extends Activity {
       mRecorder.release();
       mRecorder = null;
       
-      MediaPlayer mediaPlayer = new MediaPlayer();
-      mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-      mediaPlayer.setDataSource(mFileName);
-      mediaPlayer.prepare(); // might take long! (for buffering, etc)
-      mediaPlayer.start();
+      mPlayer = new MediaPlayer();
+      mPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+      mPlayer.setDataSource(mFileName);
+      mPlayer.prepare(); // might take long! (for buffering, etc)
+      mPlayer.start();
   }
     
     /** Get the refs to the ui elements on the page */
