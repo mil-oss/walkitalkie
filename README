@@ -1,11 +1,15 @@
 Android Basic Walkie Talkie 
+---------------------------
 
-This work was initiated at Mil-OSS 2011 in support of Major James Neushul's 
+This work was initiated at Mil-OSS WG3 in support of Major James Neushul's 
 objectives to improve both position location information (PLI) and radio 
 communications in the field using consumer technology. The basic idea is 
 to get handheld devices in the hands of individual Marines that can 
 supplement the existing communications tools that may not be as easy 
 to put in everyone's hands.
+
+Position Location Information
+-----------------------------
 
 In a tactical situation, it is valuable to track three data points
 about the location of peers:
@@ -14,10 +18,13 @@ about the location of peers:
  * Physical location on the planet
  * Location in your organization
 
+Tactical Radio / Walkie Talkie
+------------------------------
+
 It would be great if people could talk to each other over a 'Walkie Talkie'
 service using Android phones in a peer to peer manner consistent with
 tactical radios. Some of the characteristics of this include the ability
-to operate on an isolated network, emulating tactical radio networks
+to operate on an isolated network, and to emulate tactical radio networks
 in order to leverage current tactics, techniques and procedures for
 radio communications in the field.
 
@@ -49,6 +56,17 @@ We hope to leverage a larger community to develop software than is typically
 involved in military projects. The broad, community-based collaborative
 development model has lead to growing successes in many innovative projects.
 
+Software Configuration Management
+---------------------------------
+
+This project uses github for software configuration managment.
+The project's can be found at:
+
+ https://github.com/mil-oss/walkitalkie
+ 
+Pull requests and patches are welcome. Please use the issue tracker
+to report bugs, to make feature requests or even to suggest full
+user stories (we like agile methods). 
 
 Credits
 -------
@@ -59,6 +77,11 @@ The following people have contributed to this effort:
  * Patrick Reynolds <cpreynolds@gmail.com>
  * Richard Bullington-McGuire <rbullington-mcguire@bstonetech.com>
  * James Neushul <james.neushul@usmc.mil>
+
+Many thanks go to the Mil-OSS community <http://mil-oss.org/> and
+Georgia Tech Research Institute <http://www.gtri.gatech.edu/> for hosting
+both the Mil-OSS WG1 (2009) and Mil-OSS WG3 (2011) events that helped to
+gel the community that supports this software.
 
 License
 -------
