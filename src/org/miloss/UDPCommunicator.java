@@ -3,18 +3,18 @@ package org.miloss;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.SocketAddress;
+import java.net.InetSocketAddress;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.List;
 
 public class UDPCommunicator implements Communicator {
 
    private final List<SoundBiteListener> listeners = new CopyOnWriteArrayList<SoundBiteListener>();
-   private final SocketAddress address;
+   private final InetSocketAddress address;
    private final DatagramSocket socket;
 
-   public UDPCommunicator(SocketAddress address) throws Exception {
-       socket = new DatagramSocket();
+   public UDPCommunicator(InetSocketAddress address) throws Exception {
+       socket = new DatagramSocket(address.getPort());
        this.address = address;
        Thread listenerThread = new Thread("UDP listener") {
 
