@@ -23,6 +23,7 @@ import java.nio.ByteBuffer;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore.Audio;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -48,8 +49,10 @@ public class TalkActivity extends Activity {
     /**
      * Media player and recorder
      */
-    AudioRecord mRecorder;
+    MediaRecorder mRecorder;
     ByteBuffer  mAudioBuffer;
+    String mFileName;
+    String mFile;
     
     public static final String TAG = "TalkActivity";
     
@@ -104,23 +107,23 @@ public class TalkActivity extends Activity {
     };
     
     private void startRecording() throws IllegalStateException, IOException {
-     MediaRecorder recorder = new MediaRecorder();
-     recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-     recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-     recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-     FileOutputStream file = new FileOutputStream("/sdcard/output.sound");
-     recorder.setOutputFile(file.getFD());
-     recorder.prepare();
-     recorder.start(); 
+     mRecorder = new MediaRecorder();
+     mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+     mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+     mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+     mRecorder.setOutputFile(mFileName);
+     mRecorder.prepare();
+     mRecorder.start(); 
   }
 
   private void stopRecording() throws IllegalArgumentException, IllegalStateException, IOException {
       mRecorder.stop();
       mRecorder.release();
       mRecorder = null;
+      
       MediaPlayer mediaPlayer = new MediaPlayer();
       mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-      mediaPlayer.setDataSource("/sdcard/output.sound");
+      mediaPlayer.setDataSource(mFileName);
       mediaPlayer.prepare(); // might take long! (for buffering, etc)
       mediaPlayer.start();
   }
@@ -142,6 +145,9 @@ public class TalkActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += "/audiorecordtest.3gp";
         
         setContentView(R.layout.main);
         setupUIReferences();
