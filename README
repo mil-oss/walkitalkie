@@ -32,24 +32,41 @@ Some of the basic features desired are:
    * Authenticate
    * Identification
  * Network creation, management, and control
+ * Simple user interface inspired by consumer electronics and toys, e.g:
+   * http://www.yojoe.com/archive/nottoys/walkietalkie.shtml
+   * http://www.toysrus.com/product/index.jsp?productId=3756101
+   * http://www.toysrus.com/product/index.jsp?productId=4230605
 
 This has been created as a community project in the hopes that it will 
 be broadly useful.  This has the potential to be used for tactical military
 communications.  However, it has been initiated in the public realm so
 that it could also be used in more widespread applications. Some examples
 of these uses are things like gaming (paintball, geocaching), personal 
-radio services, or finding your family or friends in a large crowd. 
+radio services, public safety (police and fire fighters), public transit,
+school bus operations, or finding your family or friends in a large crowd. 
 
-We hope to leverge a larger community to develop software than is typically
+We hope to leverage a larger community to develop software than is typically
 involved in military projects. The broad, community-based collaborative
 development model has lead to growing successes in many innovative projects.
 
 
-Copyright 2011 Gene McCulley <mcculley@stackframe.com>
-Copyright 2011 Patrick Reynolds <cpreynolds@gmail.com>
-Copyright 2011 Richard Bullington-McGuire <richard.bullington.mcguire@gmail.com>
-Copyright 2011 James Neushul <james.neushul@usmc.mil>
+Credits
+-------
 
+The following people have contributed to this effort:
+
+ * Gene McCulley <mcculley@stackframe.com>
+ * Patrick Reynolds <cpreynolds@gmail.com>
+ * Richard Bullington-McGuire <rbullington-mcguire@bstonetech.com>
+ * James Neushul <james.neushul@usmc.mil>
+
+License
+-------
+
+Copyright 2011 Gene McCulley
+Copyright 2011 Patrick Reynolds
+Copyright 2011 Blackstone Technology Group
+Copyright 2011 James Neushul
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
