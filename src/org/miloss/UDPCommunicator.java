@@ -3,8 +3,13 @@ package org.miloss;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.InterfaceAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 public class UDPCommunicator implements Communicator {
@@ -12,6 +17,30 @@ public class UDPCommunicator implements Communicator {
    private final List<SoundBiteListener> listeners = new CopyOnWriteArrayList<SoundBiteListener>();
    private final InetSocketAddress address;
    private final DatagramSocket socket;
+
+   // find the first network interface that is not a loopback device
+   private static NetworkInterface findUsableInterface() throws SocketException {
+       for (Enumeration<NetworkInterface> e = NetworkInterface.getNetworkInterfaces(); e.hasMoreElements();) {
+           NetworkInterface iface = e.nextElement();
+           if (!iface.isLoopback()) {
+               return iface;
+           }
+       }
+
+       return null;
+   }
+
+   private static InterfaceAddress getAddress(NetworkInterface iface) throws Exception {
+       return iface.getInterfaceAddresses().get(0);
+   }
+
+   public UDPCommunicator() throws Exception {
+     this(getAddress(findUsableInterface()).getBroadcast(), 5555);
+   }
+
+   public UDPCommunicator(InetAddress address, int port) throws Exception {
+       this(new InetSocketAddress(address, port));
+   }
 
    public UDPCommunicator(InetSocketAddress address) throws Exception {
        socket = new DatagramSocket(address.getPort());
